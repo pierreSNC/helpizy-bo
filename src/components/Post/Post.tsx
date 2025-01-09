@@ -8,7 +8,7 @@ const Post: React.FC = () => {
 
     useEffect(() => {
         const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/posts`;
-        const idLangFr = Number(import.meta.env.VITE_ID_LANG_FR); // ID pour le français
+        const idLangFr = Number(import.meta.env.VITE_ID_LANG_FR);
 
         axios
             .get(apiUrl)
