@@ -9,7 +9,6 @@ import Faq from "./components/FAQ/FAQ";
 
 import './App.css';
 import PostDetail from "./components/Post/PostDetail";
-import CategoryDetail from "./components/Category/CategoryDetail";
 import { LanguageProvider } from './context/LanguageContext';
 import AddCategory from "./components/Category/AddCategory";
 import CategoryEdit from "./components/Category/CategoryEdit";

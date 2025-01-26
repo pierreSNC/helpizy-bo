@@ -37,7 +37,7 @@ const PostDetails = () => {
                 setError("Échec de la récupération du post.");
                 setLoading(false);
             });
-    }, [id_post]);
+    }, [id]);
 
     if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;

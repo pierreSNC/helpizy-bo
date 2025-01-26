@@ -9,7 +9,7 @@ const AddCategory: React.FC = () => {
     const [titleEn, setTitleEn] = useState<string>('');
     const [contentEn, setContentEn] = useState<string>('');
     const [active, setActive] = useState<boolean>(true);
-    const { language } = useLanguage();
+    // const { language } = useLanguage();
     const navigate = useNavigate();
 
     const handleTitleFrChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitleFr(e.target.value);

@@ -4,10 +4,11 @@ import { useLanguage } from '../../context/LanguageContext';
 import './Navbar.scss';
 
 const Navbar: React.FC = () => {
-    const { language, switchLanguage } = useLanguage(); // Utiliser le contexte pour la langue
+    // const { language, switchLanguage } = useLanguage();
+    const { switchLanguage } = useLanguage();
 
     const handleLanguageSwitch = (newLanguage: number) => {
-        switchLanguage(newLanguage); // Changer la langue
+        switchLanguage(newLanguage);
     };
 
     return (

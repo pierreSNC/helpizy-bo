@@ -47,7 +47,7 @@ const Post: React.FC = () => {
                         <ListItem
                             thumbnail={post.thumbnail}
                             title={post.translation.title}
-                            excerpt={post.translation.excerpt}
+                            // excerpt={post.translation.excerpt}
                             postId={post.id_post}
                             page={'post'}
                         />
