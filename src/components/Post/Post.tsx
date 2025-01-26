@@ -49,6 +49,7 @@ const Post: React.FC = () => {
                             title={post.translation.title}
                             excerpt={post.translation.excerpt}
                             postId={post.id_post}
+                            page={'post'}
                         />
 
                     </li>

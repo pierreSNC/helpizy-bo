@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 
 const PostDetails = () => {
-    const { id_post } = useParams(); // Récupère l'ID depuis l'URL
+    const { id } = useParams(); // Récupère l'ID depuis l'URL
     const [post, setPost] = useState<any | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/post/${id_post}`;
+        const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/post/${id}`;
         const idLangFr = Number(import.meta.env.VITE_ID_LANG_FR);
 
         axios

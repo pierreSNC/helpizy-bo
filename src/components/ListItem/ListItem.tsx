@@ -1,24 +1,44 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './ListItem.scss';
-import { useNavigate } from "react-router";
 
+interface ListItemProps {
+    id: number;
+    page: string;
+    thumbnail: string;
+    title: string;
+}
 
-const ListItem = ({postId, thumbnail, title, excerpt}) => {
-    const navigate = useNavigate();
+const ListItem = ({ id, page, thumbnail, title }: ListItemProps) => {
 
-    const handleModify = () => {
-        navigate(`/post/${postId}`);
+    const handleDelete = () => {
+        if (window.confirm('Êtes-vous sûr de vouloir supprimer cette item ?')) {
+            const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/${page}/${id}`;
+
+            axios
+                .delete(apiUrl)
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
     };
 
     return (
-        <article id='listItem'>
-            <img src={thumbnail} alt=""/>
+        <article className="listItem" id={'listItem'}>
+            <img src={thumbnail} alt={title} />
             <div>
                 <h3>{title}</h3>
-                <p>{excerpt}</p>
-            </div>
-            <div className={'button-nav'}>
-                <button onClick={() => handleModify()}>Modifier</button>
-                <button>Supprimer</button>
+                <button>
+                    <Link to={`/${page}/edit/${id}`}>Modifier</Link>
+                </button>
+
+                <button onClick={handleDelete}>
+                    Supprimer
+                </button>
             </div>
         </article>
     );

@@ -1,7 +1,15 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 import './Navbar.scss';
 
 const Navbar: React.FC = () => {
+    const { language, switchLanguage } = useLanguage(); // Utiliser le contexte pour la langue
+
+    const handleLanguageSwitch = (newLanguage: number) => {
+        switchLanguage(newLanguage); // Changer la langue
+    };
+
     return (
         <nav>
             <ul>
@@ -22,6 +30,10 @@ const Navbar: React.FC = () => {
                 </li>
                 <li>
                     <Link to="/faq">F.A.Q</Link>
+                </li>
+                <li>
+                    <button onClick={() => handleLanguageSwitch(1)}>Français</button>
+                    <button onClick={() => handleLanguageSwitch(2)}>Anglais</button>
                 </li>
             </ul>
         </nav>
