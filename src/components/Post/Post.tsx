@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../ListItem/ListItem';
+import ListItem from "../ListItem/ListItem";
 
 const Post: React.FC = () => {
     const [posts, setPosts] = useState<any[]>([]);
@@ -42,11 +44,15 @@ const Post: React.FC = () => {
             <ul>
                 {posts.map((post, index) => (
                     <li key={index}>
-                        <h2>{post.translation.title}</h2>
-                        <p>{post.translation.excerpt}</p>
-                        <p>Category: {post.id_category}</p>
-                        <p>Thumbnail: {post.thumbnail}</p>
+                        <ListItem
+                            thumbnail={post.thumbnail}
+                            title={post.translation.title}
+                            excerpt={post.translation.excerpt}
+                            postId={post.id_post}
+                        />
+
                     </li>
+
                 ))}
             </ul>
         </div>

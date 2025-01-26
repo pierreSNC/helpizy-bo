@@ -1,0 +1,15 @@
+nav {
+  background: red;
+  width: 15%;
+  min-height: 100vh;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    li {
+      list-style: none;
+      background: blue;
+      margin: 5px;
+    }
+  }
+}
