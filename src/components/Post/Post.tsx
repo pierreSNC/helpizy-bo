@@ -48,7 +48,7 @@ const Post: React.FC = () => {
                             thumbnail={post.thumbnail}
                             title={post.translation.title}
                             // excerpt={post.translation.excerpt}
-                            postId={post.id_post}
+                            id={post.id_post}
                             page={'post'}
                         />
 

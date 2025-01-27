@@ -28,7 +28,7 @@ const ListItem = ({ id, page, thumbnail, title }: ListItemProps) => {
 
     return (
         <article className="listItem" id={'listItem'}>
-            <img src={thumbnail} alt={title} />
+            <img src={thumbnail} alt={title} width={'80'} height={'80'}/>
             <div>
                 <h3>{title}</h3>
                 <button>
