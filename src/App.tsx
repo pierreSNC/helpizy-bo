@@ -5,13 +5,16 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Category from "./components/Category/Category";
 import User from "./components/User/User";
 import Author from "./components/Author/Author";
-import Faq from "./components/FAQ/FAQ";
+import Questions from "./components/FAQ/Questions";
 
 import './App.css';
 import PostDetail from "./components/Post/PostDetail";
 import { LanguageProvider } from './context/LanguageContext';
 import AddCategory from "./components/Category/AddCategory";
 import CategoryEdit from "./components/Category/CategoryEdit";
+import EditUser from "./components/User/EditUser";
+import EditQestion from "./components/FAQ/EditQestion";
+import AddQuestion from "./components/FAQ/AddQuestion";
 
 function App() {
 
@@ -31,8 +34,13 @@ function App() {
                     <Route path="/category/edit/:id" element={<CategoryEdit />} />
 
                     <Route path="/users" element={<User />} />
+                    <Route path="/user/edit/:id" element={<EditUser />} />
+
                     <Route path="/authors" element={<Author />} />
-                    <Route path="/faq" element={<Faq />} />
+
+                    <Route path="/questions" element={<Questions />} />
+                    <Route path="/question/edit/:id" element={<EditQestion />} />
+                    <Route path="/question/add-question" element={<AddQuestion />} />
                 </Routes>
             </section>
         </LanguageProvider>

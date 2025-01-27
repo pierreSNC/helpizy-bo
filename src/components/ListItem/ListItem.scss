@@ -1,8 +1,12 @@
 article#listItem{
-  background: salmon;
+  background: #ffffff;
   display: flex;
+  justify-content: space-between;
   gap: 20px;
-  width: 100%;
+  width: 95%;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 15px;
 
   img {
     border-radius: 15px;
@@ -11,5 +15,45 @@ article#listItem{
 
   .button-nav {
     background: royalblue;
+
+  }
+
+  .modify-button {
+    background: #ffa302;
+    a{
+      color: #ffffff;
+    }
+  }
+
+  .delete-button {
+    background: #c41616;
+    color: #ffffff;
+
+  }
+
+  .item-disable {
+    color: #c41616;
+  }
+
+  .item-active {
+    color: #24d524;
+  }
+
+  .button-navigation {
+    display: flex;
+    gap: 15px;
+  }
+
+  .navigation__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+    width: 40%;
+  }
+
+  .listItem__wrapper {
+    display: flex;
+    gap: 15px;
   }
 }

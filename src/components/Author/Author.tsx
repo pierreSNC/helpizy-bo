@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ListItem from "../ListItem/ListItem";
 import { useLanguage } from '../../context/LanguageContext'; // Importer le contexte
-import { Link } from 'react-router-dom'; // Pour le lien vers la page d'ajout
 
 const Author = () => {
     const [authors, setAuthors] = useState<any[]>([]);  // Changer "categories" en "authors"
@@ -43,7 +42,9 @@ const Author = () => {
 
     return (
         <div>
-            <h1>Authors</h1>
+            <div className="title__wrapper">
+                <h1>Authors</h1>
+            </div>
             <ul>
                 {authors.map((author, index) => (
                     <li key={index}>

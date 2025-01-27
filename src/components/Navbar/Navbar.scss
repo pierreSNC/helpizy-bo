@@ -1,5 +1,5 @@
 nav {
-  background: red;
+  background: #eaeaea;
   width: 15%;
   min-height: 100vh;
 
@@ -8,8 +8,51 @@ nav {
     flex-direction: column;
     li {
       list-style: none;
-      background: blue;
+      background: #ffffff;
       margin: 5px;
+      padding: 5px;
+      border-radius: 10px;
+
+      a {
+        color: #151519;
+      }
     }
   }
+}
+
+nav select {
+  display: inline-block;
+  width: 150px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  &:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+  }
+
+  option {
+    padding: 10px;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #fff;
+  }
+}
+
+nav select:hover {
+  border-color: #80bdff;
+  cursor: pointer;
+}
+
+.switch-lang {
+  margin: 5px;
 }

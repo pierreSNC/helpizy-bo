@@ -41,10 +41,12 @@ const Category = () => {
 
     return (
         <div>
-            <h1>Catégories</h1>
-            <Link to="/category/add-category">
-                <button>Ajouter</button>
-            </Link>
+            <div className="title__wrapper">
+                <h1>Catégories</h1>
+                <Link to="/category/add-category">
+                    <button className={'add-button'}>Ajouter</button>
+                </Link>
+            </div>
             <ul>
                 {categories.map((category, index) => (
                     <li key={index}>
@@ -53,6 +55,7 @@ const Category = () => {
                             page={'category'}
                             thumbnail={category.thumbnail}
                             title={category.translation.title}
+                            active={category.active}
                         />
                     </li>
                 ))}

@@ -6,9 +6,25 @@
 
 main {
   display: flex;
-  background: green;
+  background: #c1bbbb;
 }
 
 section {
   width: 100%;
+}
+
+ul li {
+  list-style: none;
+}
+
+.add-button {
+  background: #12a6e5;
+  color: #ffffff;
+}
+
+.title__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px;
 }
