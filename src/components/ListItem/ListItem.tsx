@@ -12,7 +12,7 @@ interface ListItemProps {
 const ListItem = ({ id, page, thumbnail, title }: ListItemProps) => {
 
     const handleDelete = () => {
-        if (window.confirm('Êtes-vous sûr de vouloir supprimer cette item ?')) {
+        if (window.confirm('Êtes-vous sûr de vouloir supprimer cet item ?')) {
             const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/${page}/${id}`;
 
             axios
@@ -28,16 +28,22 @@ const ListItem = ({ id, page, thumbnail, title }: ListItemProps) => {
 
     return (
         <article className="listItem" id={'listItem'}>
-            <img src={thumbnail} alt={title} width={'80'} height={'80'}/>
+            <img src={thumbnail} alt={title} width={'80'} height={'80'} />
             <div>
                 <h3>{title}</h3>
-                <button>
-                    <Link to={`/${page}/edit/${id}`}>Modifier</Link>
-                </button>
 
-                <button onClick={handleDelete}>
-                    Supprimer
-                </button>
+                {/* Vérification de la condition, affichage des boutons seulement si la page n'est pas 'author' */}
+                {page !== 'author' && (
+                    <>
+                        <button>
+                            <Link to={`/${page}/edit/${id}`}>Modifier</Link>
+                        </button>
+
+                        <button onClick={handleDelete}>
+                            Supprimer
+                        </button>
+                    </>
+                )}
             </div>
         </article>
     );

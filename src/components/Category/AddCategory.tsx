@@ -67,6 +67,7 @@ const AddCategory = () => {
                 },
             });
 
+            console.log(response)
             // Réinitialiser les champs après la soumission réussie
             alert('Catégorie créée avec succès !');
             navigate('/categories');
