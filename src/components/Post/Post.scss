@@ -1,0 +1,74 @@
+.post__wrapper {
+  margin: 15px;
+  .selection__buttons {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    button {
+      background: #007bff;
+    }
+  }
+
+  .toggle-button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #007bff;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .toggle-button:hover {
+    background-color: #007bff;
+  }
+
+  .categories__section, .authors__section {
+    margin: 20px 0;
+  }
+
+  .tabs {
+    .tabs__buttons {
+      display: flex;
+      margin-bottom: 10px;
+
+      .tabs__button {
+        flex: 1;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tabs__button.active {
+        background-color: #e0e0e0;
+      }
+    }
+
+    .tabs__content {
+      .tabs__pane {
+        display: none;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+      }
+
+      .tabs__pane.active {
+        display: block;
+      }
+    }
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-secondary {
+    background-color: #ccc;
+  }
+}

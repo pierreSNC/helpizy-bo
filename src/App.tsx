@@ -8,13 +8,14 @@ import Author from "./components/Author/Author";
 import Questions from "./components/FAQ/Questions";
 
 import './App.css';
-import PostDetail from "./components/Post/PostDetail";
 import { LanguageProvider } from './context/LanguageContext';
 import AddCategory from "./components/Category/AddCategory";
 import CategoryEdit from "./components/Category/CategoryEdit";
 import EditUser from "./components/User/EditUser";
 import EditQestion from "./components/FAQ/EditQestion";
 import AddQuestion from "./components/FAQ/AddQuestion";
+import EditPost from "./components/Post/EditPost";
+import AddPost from "./components/Post/AddPost";
 
 function App() {
 
@@ -27,7 +28,8 @@ function App() {
                     <Route path="/" element={<Dashboard />} />
 
                     <Route path="/posts" element={<Post />} />
-                    <Route path="/post/:id" element={<PostDetail />} />
+                    <Route path="/post/edit/:id" element={<EditPost />} />
+                    <Route path="/post/add-post" element={<AddPost />} />
 
                     <Route path="/categories" element={<Category />} />
                     <Route path="/category/add-category" element={<AddCategory />} />

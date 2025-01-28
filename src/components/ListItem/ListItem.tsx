@@ -7,10 +7,11 @@ interface ListItemProps {
     page: string;
     thumbnail?: string;
     title: string;
+    excerpt?: string;
     active?: any;
 }
 
-const ListItem = ({ id, page, thumbnail, title, active }: ListItemProps) => {
+const ListItem = ({ id, page, thumbnail, title, excerpt, active }: ListItemProps) => {
     const handleDelete = () => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer cet item ?')) {
             const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/${page}/${id}`;
@@ -40,8 +41,8 @@ const ListItem = ({ id, page, thumbnail, title, active }: ListItemProps) => {
                     </div>
                 )}
                 <div>
-
                     <h3>{title}</h3>
+                    <p>{excerpt}</p>
                 </div>
             </div>
             <div className={'navigation__wrapper'}>
@@ -53,7 +54,7 @@ const ListItem = ({ id, page, thumbnail, title, active }: ListItemProps) => {
                         <button className={'delete-button'} onClick={handleDelete}>Supprimer</button>
                     </div>
                 )}
-                {(page === 'question' || page === 'category') && (
+                {(page === 'question' || page === 'category' || page === 'post') && (
                     <div>
                         {active ? (
                             <div  className={'item-active'}>active</div>

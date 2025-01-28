@@ -23,7 +23,7 @@ nav {
 
 nav select {
   display: inline-block;
-  width: 150px;
+  width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   font-weight: 400;
@@ -55,5 +55,6 @@ nav select:hover {
 }
 
 .switch-lang {
+  width: 100%;
   margin: 5px;
 }
