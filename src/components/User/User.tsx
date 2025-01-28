@@ -30,7 +30,7 @@ const User = () => {
     return (
         <div>
             <div className="title__wrapper">
-                <h1>Users</h1>
+                <h1>Utilisateurs</h1>
             </div>
             <ul>
                 {users.map((user, index) => (

@@ -43,7 +43,7 @@ const Author = () => {
     return (
         <div>
             <div className="title__wrapper">
-                <h1>Authors</h1>
+                <h1>Auteurs</h1>
             </div>
             <ul>
                 {authors.map((author, index) => (

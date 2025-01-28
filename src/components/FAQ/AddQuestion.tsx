@@ -8,7 +8,6 @@ const AddQuestion = () => {
     const [contentFr, setContentFr] = useState('');
     const [titleEn, setTitleEn] = useState('');
     const [contentEn, setContentEn] = useState('');
-    const [active, setActive] = useState(false);
     const [isSpotlight, setIsSpotlight] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'fr' | 'en'>('fr');
@@ -25,12 +24,11 @@ const AddQuestion = () => {
         setError(null);
 
         const newQuestion = {
-            active,
             isSpotlight,
             translations: [
                 { id_lang: 1, title: titleFr, content: contentFr },
                 { id_lang: 2, title: titleEn, content: contentEn },
-            ]
+            ],
         };
 
         const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/question`;
@@ -115,6 +113,7 @@ const AddQuestion = () => {
                         </div>
                     </>
                 )}
+
                 <div className="status__wrapper">
                     <label htmlFor="isSpotlight">Spotlight</label>
                     <input
@@ -127,10 +126,15 @@ const AddQuestion = () => {
 
                 {error && <p className="error">{error}</p>}
 
-
                 <div className="button-group">
                     <button type="submit">Sauvegarder</button>
-                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/questions")}>Annuler</button>
+                    <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/questions')}
+                    >
+                        Annuler
+                    </button>
                 </div>
             </form>
         </div>

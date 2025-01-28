@@ -48,7 +48,7 @@ const Questions = () => {
     return (
         <div>
             <div className="title__wrapper">
-                <h1>FAQ</h1>
+                <h1>F.A.Q</h1>
                 <Link to="/question/add-question">
                     <button className={'add-button'}>Ajouter</button>
                 </Link>
