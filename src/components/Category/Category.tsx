@@ -16,6 +16,7 @@ const Category = () => {
         axios
             .get(apiUrl)
             .then((response) => {
+                console.log(response)
                 const filteredCategories = response.data.map((category: any) => {
                     const translatedCategory = category.translations.find(
                         (translation: any) => translation.id_lang === language
