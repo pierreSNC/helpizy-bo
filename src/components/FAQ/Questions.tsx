@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLanguage } from "../../context/LanguageContext";
 import ListItem from "../ListItem/ListItem";

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import './User.scss'; // Importer le fichier SCSS
 
 const EditUser = () => {
     const { id } = useParams<{ id: string }>(); // Récupérer l'ID depuis l'URL
@@ -27,7 +28,7 @@ const EditUser = () => {
                 setLoading(false);
             } catch (err) {
                 console.error(err);
-                setError("Failed to fetch user data.");
+                setError("Échec du chargement des données de l'utilisateur.");
                 setLoading(false);
             }
         };
@@ -58,23 +59,26 @@ const EditUser = () => {
 
             await axios.patch(apiUrl, payload);
 
-            alert("User updated successfully!");
+            alert("Utilisateur mis à jour avec succès !");
             navigate("/users"); // Rediriger vers la liste des utilisateurs après modification
         } catch (err) {
             console.error(err);
-            setError("Failed to update user.");
+            setError("Échec de la mise à jour de l'utilisateur.");
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
     return (
-        <div>
-            <h1>Edit User</h1>
+        <div className="edit-user">
+            <div className="title__wrapper">
+                <h1>Modifier l'Utilisateur</h1>
+            </div>
+
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="lastname">Last Name:</label>
+                <div className="input-group">
+                    <label htmlFor="lastname">Nom de famille :</label>
                     <input
                         type="text"
                         id="lastname"
@@ -85,8 +89,8 @@ const EditUser = () => {
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="firstname">First Name:</label>
+                <div className="input-group">
+                    <label htmlFor="firstname">Prénom :</label>
                     <input
                         type="text"
                         id="firstname"
@@ -97,20 +101,20 @@ const EditUser = () => {
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="email">Email:</label>
+                <div className="input-group">
+                    <label htmlFor="email">Email :</label>
                     <input
                         type="email"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        disabled // Email est désactivé pour éviter la modification
+                        disabled
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="password">New Password:</label>
+                <div className="input-group">
+                    <label htmlFor="password">Nouveau mot de passe :</label>
                     <input
                         type="password"
                         id="password"
@@ -120,10 +124,12 @@ const EditUser = () => {
                     />
                 </div>
 
-                <button type="submit">Save Changes</button>
-                <button type="button" onClick={() => navigate("/users")}>
-                    Cancel
-                </button>
+                {error && <p className="error">{error}</p>}
+
+                <div className="button-group">
+                    <button type="submit" className="btn btn-primary">Sauvegarder</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/users")}>Annuler</button>
+                </div>
             </form>
         </div>
     );

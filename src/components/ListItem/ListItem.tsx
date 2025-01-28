@@ -5,8 +5,9 @@ import './ListItem.scss';
 interface ListItemProps {
     id: number;
     page: string;
-    thumbnail: string;
+    thumbnail?: string;
     title: string;
+    active?: any;
 }
 
 const ListItem = ({ id, page, thumbnail, title, active }: ListItemProps) => {

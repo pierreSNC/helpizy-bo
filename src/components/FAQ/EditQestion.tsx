@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './FAQ.scss'
 
 const EditQuestion = () => {
     const { id } = useParams<{ id: string }>();
@@ -17,6 +18,7 @@ const EditQuestion = () => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [activeTab, setActiveTab] = useState('fr'); // Tab actif (Français ou Anglais)
 
     useEffect(() => {
         const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/question/${id}`;
@@ -84,10 +86,10 @@ const EditQuestion = () => {
     if (error) return <div>{error}</div>;
 
     return (
-        <div>
+        <div className="faq-edit">
             <h1>Modifier la Question</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className={'status__wrapper'}>
                     <label>
                         <input
                             type="checkbox"
@@ -97,52 +99,77 @@ const EditQuestion = () => {
                         Actif
                     </label>
                 </div>
-                <div>
+                <div className={'status__wrapper'}>
                     <label>
                         <input
                             type="checkbox"
                             checked={question.isSpotlight}
                             onChange={(e) => setQuestion({ ...question, isSpotlight: e.target.checked })}
                         />
-                        Spotlight
+                        À la une
                     </label>
                 </div>
 
-                <h2>Français</h2>
-                <div>
-                    <label>Titre :</label>
-                    <input
-                        type="text"
-                        value={question.titleFr}
-                        onChange={(e) => setQuestion({ ...question, titleFr: e.target.value })}
-                    />
-                </div>
-                <div>
-                    <label>Contenu :</label>
-                    <textarea
-                        value={question.contentFr}
-                        onChange={(e) => setQuestion({ ...question, contentFr: e.target.value })}
-                    ></textarea>
-                </div>
-
-                <h2>Anglais</h2>
-                <div>
-                    <label>Titre :</label>
-                    <input
-                        type="text"
-                        value={question.titleEn}
-                        onChange={(e) => setQuestion({ ...question, titleEn: e.target.value })}
-                    />
-                </div>
-                <div>
-                    <label>Contenu :</label>
-                    <textarea
-                        value={question.contentEn}
-                        onChange={(e) => setQuestion({ ...question, contentEn: e.target.value })}
-                    ></textarea>
+                <div className="tabs">
+                    <button
+                        type="button"
+                        className={activeTab === 'fr' ? 'active' : ''}
+                        onClick={() => setActiveTab('fr')}
+                    >
+                        Français
+                    </button>
+                    <button
+                        type="button"
+                        className={activeTab === 'en' ? 'active' : ''}
+                        onClick={() => setActiveTab('en')}
+                    >
+                        Anglais
+                    </button>
                 </div>
 
-                <button type="submit">Enregistrer</button>
+                <div className={`tab-content ${activeTab === 'fr' ? 'active' : ''}`}>
+                    <h2>Français</h2>
+                    <div className="input-group">
+                        <label>Titre :</label>
+                        <input
+                            type="text"
+                            value={question.titleFr}
+                            onChange={(e) => setQuestion({ ...question, titleFr: e.target.value })}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Contenu :</label>
+                        <textarea
+                            value={question.contentFr}
+                            onChange={(e) => setQuestion({ ...question, contentFr: e.target.value })}
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div className={`tab-content ${activeTab === 'en' ? 'active' : ''}`}>
+                    <h2>Anglais</h2>
+                    <div className="input-group">
+                        <label>Titre :</label>
+                        <input
+                            type="text"
+                            value={question.titleEn}
+                            onChange={(e) => setQuestion({ ...question, titleEn: e.target.value })}
+                        />
+                    </div>
+                    <div className="input-group">
+                        <label>Contenu :</label>
+                        <textarea
+                            value={question.contentEn}
+                            onChange={(e) => setQuestion({ ...question, contentEn: e.target.value })}
+                        ></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div className="button-group">
+                        <button type="submit">Sauvegarder</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => navigate("/questions")}>Annuler</button>
+                    </div>
+                </div>
             </form>
         </div>
     );

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Category.scss';
 
 const CategoryEdit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // État pour gérer les données de la catégorie et le contenu des traductions
     const [category, setCategory] = useState({
         titleFr: '',
         titleEn: '',
@@ -14,9 +16,14 @@ const CategoryEdit = () => {
         active: true,
     });
 
+    // État pour le chargement et les erreurs
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    // État pour gérer l'onglet actif
+    const [activeTab, setActiveTab] = useState<'fr' | 'en'>('fr'); // 'fr' pour Français, 'en' pour Anglais
+
+    // Récupération des données de la catégorie
     useEffect(() => {
         const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/category/${id}`;
 
@@ -45,6 +52,7 @@ const CategoryEdit = () => {
             });
     }, [id]);
 
+    // Fonction pour gérer la soumission du formulaire
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -76,53 +84,85 @@ const CategoryEdit = () => {
             });
     };
 
+    // Affichage lors du chargement ou en cas d'erreur
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
     return (
-        <div>
-            <h1>Modifier la catégorie</h1>
+        <div className="category__wrapper">
+            <div className="title__wrapper">
+                <h1>Modifier la catégorie</h1>
+            </div>
+            <div className="status__wrapper">
+                <label>Status :</label>
+                <input
+                    type="checkbox"
+                    checked={category.active}
+                    onChange={(e) => setCategory({ ...category, active: e.target.checked })}
+                />
+            </div>
+
+            {/* Onglets pour passer entre les langues */}
+            <div className="nav nav-tabs">
+                <button
+                    className={`nav-link ${activeTab === 'fr' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('fr')}
+                >
+                    Français
+                </button>
+                <button
+                    className={`nav-link ${activeTab === 'en' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('en')}
+                >
+                    Anglais
+                </button>
+            </div>
+
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Titre (Français) :</label>
-                    <input
-                        type="text"
-                        value={category.titleFr}
-                        onChange={(e) => setCategory({ ...category, titleFr: e.target.value })}
-                    />
+                {activeTab === 'fr' && (
+                    <>
+                        <div className="input-group">
+                            <label>Titre :</label>
+                            <input
+                                type="text"
+                                value={category.titleFr}
+                                onChange={(e) => setCategory({ ...category, titleFr: e.target.value })}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>Contenu :</label>
+                            <textarea
+                                value={category.contentFr}
+                                onChange={(e) => setCategory({ ...category, contentFr: e.target.value })}
+                            />
+                        </div>
+                    </>
+                )}
+
+                {activeTab === 'en' && (
+                    <>
+                        <div className="input-group">
+                            <label>Titre :</label>
+                            <input
+                                type="text"
+                                value={category.titleEn}
+                                onChange={(e) => setCategory({ ...category, titleEn: e.target.value })}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label>Contenu :</label>
+                            <textarea
+                                value={category.contentEn}
+                                onChange={(e) => setCategory({ ...category, contentEn: e.target.value })}
+                            />
+                        </div>
+                    </>
+                )}
+
+                <div className="button-group">
+                    <button type="submit">Sauvegarder</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/categories")}>Annuler</button>
                 </div>
-                <div>
-                    <label>Contenu (Français) :</label>
-                    <textarea
-                        value={category.contentFr}
-                        onChange={(e) => setCategory({ ...category, contentFr: e.target.value })}
-                    />
-                </div>
-                <div>
-                    <label>Titre (Anglais) :</label>
-                    <input
-                        type="text"
-                        value={category.titleEn}
-                        onChange={(e) => setCategory({ ...category, titleEn: e.target.value })}
-                    />
-                </div>
-                <div>
-                    <label>Contenu (Anglais) :</label>
-                    <textarea
-                        value={category.contentEn}
-                        onChange={(e) => setCategory({ ...category, contentEn: e.target.value })}
-                    />
-                </div>
-                <div>
-                    <label>Status :</label>
-                    <input
-                        type="checkbox"
-                        checked={category.active}
-                        onChange={(e) => setCategory({ ...category, active: e.target.checked })}
-                    />
-                    Actif
-                </div>
-                <button type="submit">Sauvegarder</button>
             </form>
         </div>
     );

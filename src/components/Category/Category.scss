@@ -1,0 +1,142 @@
+.category__wrapper,
+.add-category {
+  margin: 15px;
+
+  .title__wrapper {
+    margin: 0;
+  }
+}
+
+.status__wrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  label {
+    font-weight: 600;
+    font-size: 20px;
+  }
+}
+
+.title__wrapper h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.tabs, .nav-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.tabs button, .nav-link {
+  padding: 10px 20px;
+  margin-right: 5px;
+  border: 1px solid transparent;
+  background-color: #f8f9fa;
+  color: #007bff;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.tabs button:hover, .nav-link:hover {
+  background-color: #e2e6ea;
+  border-color: #ddd;
+}
+
+.tabs button.active, .nav-link.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.tabs button:focus, .nav-link:focus {
+  outline: none;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.input-group input:invalid, .input-group textarea:invalid {
+  border-color: #dc3545;
+}
+
+.input-group input:hover, .input-group textarea:hover {
+  border-color: #007bff;
+}
+
+.input-group textarea {
+  height: 500px;
+  resize: none;
+}
+
+.input-group textarea::placeholder {
+  color: #6c757d;
+  font-style: italic;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:focus {
+  outline: none;
+}
+
+input[type="file"] {
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+input[type="file"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 10px;
+}
