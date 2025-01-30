@@ -28,7 +28,7 @@ const AddPost = () => {
     const [showCategories, setShowCategories] = useState(true);
     const [showAuthors, setShowAuthors] = useState(true);
     const [activeTab, setActiveTab] = useState<'fr' | 'en'>('fr');
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const AddPost = () => {
         }
     };
 
-    if (loading) return <div>Chargement...</div>;
+    // if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
     return (

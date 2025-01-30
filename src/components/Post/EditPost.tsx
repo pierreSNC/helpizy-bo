@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import './Post.scss';
 
 const PostEdit = () => {
     const { id } = useParams();
@@ -17,12 +16,12 @@ const PostEdit = () => {
         additionalContentFr: '',
         additionalContentEn: '',
         active: true,
-        thumbnail: '', // URL de l'image actuelle
-        videoUrl: '', // Lien YouTube
-        id_category: [], // Liste des catégories sélectionnées
-        id_author: '', // Auteur sélectionné
+        thumbnail: '',
+        videoUrl: '',
+        id_category: [] as string[], // On définit clairement id_category comme un tableau de string
+        id_author: '',
     });
-    const [newImage, setNewImage] = useState<File | null>(null); // Nouvelle image à uploader
+    const [newImage, setNewImage] = useState<File | null>(null);
     const [categories, setCategories] = useState([]);
     const [authors, setAuthors] = useState([]);
     const [showCategories, setShowCategories] = useState(true);
@@ -31,7 +30,6 @@ const PostEdit = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Récupère les catégories et auteurs
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL_PREFIX}/api/categories`)
             .then((response) => setCategories(response.data))
@@ -42,7 +40,6 @@ const PostEdit = () => {
             .catch((err) => console.error(err));
     }, []);
 
-    // Récupère le post à modifier
     useEffect(() => {
         const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/post/${id}`;
         axios.get(apiUrl)
@@ -62,9 +59,9 @@ const PostEdit = () => {
                     additionalContentEn: englishTranslation ? englishTranslation.additionnal_content : '',
                     active: data.active,
                     thumbnail: data.thumbnail,
-                    videoUrl: data.video_url || '', // Assure un lien YouTube par défaut
-                    id_category: data.id_category ? data.id_category.split(',').map((id: string) => parseInt(id)).filter(id => !isNaN(id)) : [], // Filtrer NaN
-                    id_author: data.id_author || '',
+                    videoUrl: data.video_url || '',
+                    id_category: Array.isArray(data.id_category) ? data.id_category : data.id_category.split(','), // On vérifie si c'est déjà un tableau, sinon on le découpe
+                    id_author: data.id_author,
                 });
                 setLoading(false);
             })
@@ -75,7 +72,6 @@ const PostEdit = () => {
             });
     }, [id]);
 
-    // Soumission du formulaire
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -84,30 +80,23 @@ const PostEdit = () => {
 
         // Ajoute les données textuelles
         formData.append('active', String(post.active));
-        formData.append('video_url', post.videoUrl); // Lien YouTube
+        formData.append('video_url', post.videoUrl);
+        formData.append('id_category', post.id_category.join(',')); // Envoi des catégories sous forme de chaîne
+        formData.append('id_author', post.id_author);
+        formData.append('translations', JSON.stringify([{
+            id_lang: 1,
+            title: post.titleFr,
+            excerpt: post.excerptFr,
+            content: post.contentFr,
+            additionnal_content: post.additionalContentFr,
+        }, {
+            id_lang: 2,
+            title: post.titleEn,
+            excerpt: post.excerptEn,
+            content: post.contentEn,
+            additionnal_content: post.additionalContentEn,
+        }]));
 
-        // Formate les catégories sélectionnées en une chaîne séparée par des virgules (en éliminant NaN)
-        formData.append('id_category', post.id_category.filter(id => !isNaN(id)).join(',')); // Catégories sous forme de chaîne "31,32"
-
-        formData.append('id_author', post.id_author); // Auteur sélectionné
-        formData.append('translations', JSON.stringify([
-            {
-                id_lang: 1,
-                title: post.titleFr,
-                excerpt: post.excerptFr,
-                content: post.contentFr,
-                additionnal_content: post.additionalContentFr,
-            },
-            {
-                id_lang: 2,
-                title: post.titleEn,
-                excerpt: post.excerptEn,
-                content: post.contentEn,
-                additionnal_content: post.additionalContentEn,
-            },
-        ]));
-
-        // Ajoute la nouvelle image si présente
         if (newImage) {
             formData.append('thumbnail', newImage);
         }
@@ -116,14 +105,13 @@ const PostEdit = () => {
             await axios.patch(apiUrl, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            navigate('/posts'); // Redirige vers la liste des posts
+            navigate('/posts');
         } catch (err) {
             console.error(err);
             setError("Erreur lors de la mise à jour du post.");
         }
     };
 
-    // Gère la sélection de l'image
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -131,22 +119,19 @@ const PostEdit = () => {
         }
     };
 
-    // Gère la sélection de catégorie
-    const handleCategoryChange = (id: number) => {
-        setPost(prevState => {
-            const newCategories = prevState.id_category.includes(id)
-                ? prevState.id_category.filter(categoryId => categoryId !== id)
-                : [...prevState.id_category, id];
-            return { ...prevState, id_category: newCategories.filter(id => !isNaN(id)) }; // Filtrer NaN
-        });
+    // Gère la sélection des catégories (multiple)
+    const handleCategoryChange = (id: any) => {
+        const updatedCategories = post.id_category.includes(String(id))
+            ? post.id_category.filter((catId: string) => catId !== String(id))  // Désélectionner
+            : [...post.id_category, String(id)];  // Ajouter la catégorie
+
+        setPost({ ...post, id_category: updatedCategories });
     };
 
-    // Gère la sélection d'auteur
     const handleAuthorChange = (id: number) => {
         setPost({ ...post, id_author: String(id) });
     };
 
-    // Affichage en cas de chargement ou d'erreur
     if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
@@ -156,10 +141,7 @@ const PostEdit = () => {
 
             {/* Gestion des catégories */}
             <div className="selection__buttons">
-                <button
-                    onClick={() => setShowCategories(!showCategories)}
-                    className="toggle-button"
-                >
+                <button onClick={() => setShowCategories(!showCategories)} className="toggle-button">
                     Catégories {showCategories ? "🔽" : "🔼"}
                 </button>
             </div>
@@ -174,7 +156,7 @@ const PostEdit = () => {
                                     type="checkbox"
                                     name="category"
                                     value={category.id_category}
-                                    checked={post.id_category.includes(category.id_category)} // Vérifie si la catégorie est sélectionnée
+                                    checked={post.id_category.includes(String(category.id_category))}
                                     onChange={() => handleCategoryChange(category.id_category)}
                                 />
                                 {category.translations.find((t: any) => t.id_lang === 1)?.title || "Sans titre"}
@@ -186,10 +168,7 @@ const PostEdit = () => {
 
             {/* Gestion des auteurs */}
             <div className="selection__buttons">
-                <button
-                    onClick={() => setShowAuthors(!showAuthors)}
-                    className="toggle-button"
-                >
+                <button onClick={() => setShowAuthors(!showAuthors)} className="toggle-button">
                     Auteurs {showAuthors ? "🔽" : "🔼"}
                 </button>
             </div>
@@ -270,7 +249,7 @@ const PostEdit = () => {
                 {activeTab === 'en' && (
                     <>
                         <div className="input-group">
-                            <label>Titre (Anglais) :</label>
+                            <label>Title (English) :</label>
                             <input
                                 type="text"
                                 value={post.titleEn}
@@ -278,21 +257,21 @@ const PostEdit = () => {
                             />
                         </div>
                         <div className="input-group">
-                            <label>Résumé (Anglais) :</label>
+                            <label>Excerpt (English) :</label>
                             <textarea
                                 value={post.excerptEn}
                                 onChange={(e) => setPost({ ...post, excerptEn: e.target.value })}
                             />
                         </div>
                         <div className="input-group">
-                            <label>Contenu principal (Anglais) :</label>
+                            <label>Main Content (English) :</label>
                             <textarea
                                 value={post.contentEn}
                                 onChange={(e) => setPost({ ...post, contentEn: e.target.value })}
                             />
                         </div>
                         <div className="input-group">
-                            <label>Contenu additionnel (Anglais) :</label>
+                            <label>Additional Content (English) :</label>
                             <textarea
                                 value={post.additionalContentEn}
                                 onChange={(e) => setPost({ ...post, additionalContentEn: e.target.value })}
@@ -301,17 +280,36 @@ const PostEdit = () => {
                     </>
                 )}
 
-                <div className="form-group">
-                    <label>Image :</label>
-                    <input type="file" onChange={handleImageChange} />
-                    {post.thumbnail && !newImage && (
-                        <div className="image-preview">
-                            <img src={post.thumbnail} alt="thumbnail" width="150" />
-                        </div>
+                <div className="image-preview">
+                    <label>Image actuelle :</label>
+                    {post.thumbnail ? (
+                        <img src={post.thumbnail} alt="Aperçu" style={{ maxWidth: '200px', marginBottom: '10px' }} />
+                    ) : (
+                        <p>Aucune image disponible</p>
                     )}
                 </div>
 
-                <button type="submit" className="submit-btn">Enregistrer les modifications</button>
+                <div className="input-group">
+                    <label>Nouvelle image :</label>
+                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                </div>
+
+                <div className="input-group">
+                    <label>Lien vidéo YouTube :</label>
+                    <input
+                        type="text"
+                        value={post.videoUrl}
+                        onChange={(e) => setPost({ ...post, videoUrl: e.target.value })}
+                        placeholder="Ex: https://www.youtube.com/watch?v=example"
+                    />
+                </div>
+
+                <div className="button-group">
+                    <button type="submit">Sauvegarder</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => navigate('/posts')}>
+                        Annuler
+                    </button>
+                </div>
             </form>
         </div>
     );
