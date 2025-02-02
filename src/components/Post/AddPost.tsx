@@ -16,6 +16,7 @@ const AddPost = () => {
         additionalContentFr: "",
         additionalContentEn: "",
         active: true,
+        is_premium: false,
         thumbnail: "",
         videoUrl: "",
         id_category: "",
@@ -50,6 +51,7 @@ const AddPost = () => {
 
         formData.append("active", String(post.active));
         formData.append("video_url", post.videoUrl);
+        formData.append("is_premium", String(post.is_premium));
         formData.append("id_category", post.id_category);
         formData.append("id_author", post.id_author);
 
@@ -164,6 +166,14 @@ const AddPost = () => {
                 </div>
             )}
 
+            <div className="status__wrapper">
+                <label> Article Premium :</label>
+                <input
+                    type="checkbox"
+                    checked={post.is_premium}
+                    onChange={(e) => setPost({ ...post, is_premium: e.target.checked })}
+                />
+            </div>
             {/* Système de Tabulation pour les traductions */}
             <div className="tabs">
                 <button

@@ -16,6 +16,7 @@ const PostEdit = () => {
         additionalContentFr: '',
         additionalContentEn: '',
         active: true,
+        is_premium: false,
         thumbnail: '',
         videoUrl: '',
         id_category: [] as string[], // On définit clairement id_category comme un tableau de string
@@ -58,6 +59,7 @@ const PostEdit = () => {
                     contentEn: englishTranslation ? englishTranslation.content : '',
                     additionalContentEn: englishTranslation ? englishTranslation.additionnal_content : '',
                     active: data.active,
+                    is_premium: data.is_premium,
                     thumbnail: data.thumbnail,
                     videoUrl: data.video_url || '',
                     id_category: Array.isArray(data.id_category) ? data.id_category : data.id_category.split(','), // On vérifie si c'est déjà un tableau, sinon on le découpe
@@ -81,6 +83,7 @@ const PostEdit = () => {
         // Ajoute les données textuelles
         formData.append('active', String(post.active));
         formData.append('video_url', post.videoUrl);
+        formData.append("is_premium", String(post.is_premium));
         formData.append('id_category', post.id_category.join(',')); // Envoi des catégories sous forme de chaîne
         formData.append('id_author', post.id_author);
         formData.append('translations', JSON.stringify([{
@@ -193,6 +196,14 @@ const PostEdit = () => {
                 </div>
             )}
 
+            <div className="status__wrapper">
+                    <label> Article Premium :</label>
+                    <input
+                        type="checkbox"
+                        checked={!!post.is_premium} // Convertit undefined en false si nécessaire
+                        onChange={(e) => setPost({ ...post, is_premium: e.target.checked })}
+                    />
+            </div>
             <div className="status__wrapper">
                 <label>Status :</label>
                 <input
