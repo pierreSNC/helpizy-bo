@@ -225,6 +225,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Résumé (Français) :</label>
                             <textarea
+                                id={'post-excerpt'}
                                 value={post.excerptFr}
                                 onChange={(e) => setPost({ ...post, excerptFr: e.target.value })}
                             />
@@ -232,6 +233,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Contenu principal (Français) :</label>
                             <textarea
+                                id={'post-content'}
                                 value={post.contentFr}
                                 onChange={(e) => setPost({ ...post, contentFr: e.target.value })}
                             />
@@ -239,6 +241,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Contenu additionnel (Français) :</label>
                             <textarea
+                                id={'post-additional-content'}
                                 value={post.additionalContentFr}
                                 onChange={(e) => setPost({ ...post, additionalContentFr: e.target.value })}
                             />
@@ -259,6 +262,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Excerpt (English) :</label>
                             <textarea
+                                id={'post-excerpt'}
                                 value={post.excerptEn}
                                 onChange={(e) => setPost({ ...post, excerptEn: e.target.value })}
                             />
@@ -266,6 +270,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Main Content (English) :</label>
                             <textarea
+                                id={'post-content'}
                                 value={post.contentEn}
                                 onChange={(e) => setPost({ ...post, contentEn: e.target.value })}
                             />
@@ -273,6 +278,7 @@ const PostEdit = () => {
                         <div className="input-group">
                             <label>Additional Content (English) :</label>
                             <textarea
+                                id={'post-additional-content'}
                                 value={post.additionalContentEn}
                                 onChange={(e) => setPost({ ...post, additionalContentEn: e.target.value })}
                             />

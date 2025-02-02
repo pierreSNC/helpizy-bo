@@ -5,6 +5,11 @@
   .title__wrapper {
     margin: 0;
   }
+
+  .input-group textarea {
+    height: 500px;
+    resize: none;
+  }
 }
 
 .status__wrapper {
@@ -94,10 +99,7 @@
   border-color: #007bff;
 }
 
-.input-group textarea {
-  height: 500px;
-  resize: none;
-}
+
 
 .input-group textarea::placeholder {
   color: #6c757d;

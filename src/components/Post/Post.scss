@@ -9,6 +9,20 @@
     }
   }
 
+  .input-group textarea {
+
+    &#post-excerpt {
+      height: 100px;
+    }
+
+    &#post-content {
+      height: 500px;
+    }
+
+    &#post-additional-content {
+      height: 200px;
+    }
+  }
   .toggle-button {
     padding: 10px 20px;
     border: 1px solid #ccc;
