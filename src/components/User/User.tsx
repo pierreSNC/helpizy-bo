@@ -39,6 +39,7 @@ const User = () => {
                             id={user.id_user}
                             page={'user'}
                             title={`${user.firstname} ${user.lastname}`}
+                            role={user.role}
                             thumbnail={user.profile_picture || 'https://placehold.co/80'} // Placeholder si pas d'image
                         />
                     </li>

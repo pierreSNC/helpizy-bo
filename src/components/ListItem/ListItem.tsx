@@ -9,9 +9,10 @@ interface ListItemProps {
     title: string;
     excerpt?: string;
     active?: any;
+    role?: string;
 }
 
-const ListItem = ({ id, page, thumbnail, title, excerpt, active }: ListItemProps) => {
+const ListItem = ({ id, page, thumbnail, title, excerpt, active, role }: ListItemProps) => {
     const handleDelete = () => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer cet item ?')) {
             const apiUrl = `${import.meta.env.VITE_API_URL_PREFIX}/api/${page}/${id}`;
@@ -60,6 +61,16 @@ const ListItem = ({ id, page, thumbnail, title, excerpt, active }: ListItemProps
                             <div  className={'item-active'}>active</div>
                         ) : (
                             <div className={'item-disable'}>désactivé</div>
+                        )}
+                    </div>
+                )}
+                {(page === 'user') && (
+                    <div>
+                        {role === 'premium' ? (
+                            <div className={''}>premium</div>
+
+                        ) : (
+                            ''
                         )}
                     </div>
                 )}
