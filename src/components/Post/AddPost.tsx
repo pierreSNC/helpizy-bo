@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from "react-router-dom";
 import './Post.scss';
 
 const AddPost = () => {
     const navigate = useNavigate();
-
     const [post, setPost] = useState({
         titleFr: "",
         titleEn: "",
@@ -29,7 +30,6 @@ const AddPost = () => {
     const [showCategories, setShowCategories] = useState(true);
     const [showAuthors, setShowAuthors] = useState(true);
     const [activeTab, setActiveTab] = useState<'fr' | 'en'>('fr');
-    // const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -77,6 +77,17 @@ const AddPost = () => {
         }
     };
 
+    const handleTabChange = (lang: 'fr' | 'en') => {
+        setActiveTab(lang);
+    };
+
+    const handleContentChange = (value: string, lang: 'fr' | 'en', field: 'content' | 'additionalContent') => {
+        setPost(prevState => ({
+            ...prevState,
+            [`${field}${lang === 'fr' ? 'Fr' : 'En'}`]: value
+        }));
+    };
+
     const handleCategoryChange = (id: number) => {
         const selectedIds = post.id_category.split(",").map((id) => id.trim()).filter((id) => id !== "");
         if (selectedIds.includes(String(id))) {
@@ -99,14 +110,12 @@ const AddPost = () => {
         }
     };
 
-    // if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
     return (
         <div className="post__wrapper">
             <h1>Ajouter un post</h1>
 
-            {/* Gestion des boutons pour catégories et auteurs */}
             <div className="selection__buttons">
                 <button
                     onClick={() => setShowCategories(!showCategories)}
@@ -116,7 +125,6 @@ const AddPost = () => {
                 </button>
             </div>
 
-            {/* Section Catégories */}
             {showCategories && (
                 <div className="categories__section">
                     <h2>Catégories</h2>
@@ -137,6 +145,7 @@ const AddPost = () => {
                     })}
                 </div>
             )}
+
             <div className="selection__buttons">
                 <button
                     onClick={() => setShowAuthors(!showAuthors)}
@@ -145,7 +154,7 @@ const AddPost = () => {
                     Auteurs {showAuthors ? "🔽" : "🔼"}
                 </button>
             </div>
-            {/* Section Auteurs */}
+
             {showAuthors && (
                 <div className="authors__section">
                     <h2>Auteurs</h2>
@@ -174,17 +183,17 @@ const AddPost = () => {
                     onChange={(e) => setPost({ ...post, is_premium: e.target.checked })}
                 />
             </div>
-            {/* Système de Tabulation pour les traductions */}
+
             <div className="tabs">
                 <button
                     className={activeTab === 'fr' ? 'active' : ''}
-                    onClick={() => setActiveTab('fr')}
+                    onClick={() => handleTabChange('fr')}
                 >
                     Français
                 </button>
                 <button
                     className={activeTab === 'en' ? 'active' : ''}
-                    onClick={() => setActiveTab('en')}
+                    onClick={() => handleTabChange('en')}
                 >
                     Anglais
                 </button>
@@ -211,22 +220,23 @@ const AddPost = () => {
                         </div>
                         <div className="input-group">
                             <label>Contenu principal (Français)</label>
-                            <textarea
-                                id={'post-content'}
+                            <ReactQuill
                                 value={post.contentFr}
-                                onChange={(e) => setPost({ ...post, contentFr: e.target.value })}
+                                onChange={(value) => handleContentChange(value, 'fr', 'content')}
+                                theme="snow"
+                                id="post-content"
                             />
                         </div>
                         <div className="input-group">
                             <label>Contenu additionnel (Français)</label>
                             <textarea
-                                id={'post-additional-content'}
                                 value={post.additionalContentFr}
                                 onChange={(e) => setPost({ ...post, additionalContentFr: e.target.value })}
                             />
                         </div>
                     </>
                 )}
+
                 {activeTab === 'en' && (
                     <>
                         <div className="input-group">
@@ -247,16 +257,16 @@ const AddPost = () => {
                         </div>
                         <div className="input-group">
                             <label>Contenu principal (Anglais)</label>
-                            <textarea
-                                id={'post-content'}
+                            <ReactQuill
                                 value={post.contentEn}
-                                onChange={(e) => setPost({ ...post, contentEn: e.target.value })}
+                                onChange={(value) => handleContentChange(value, 'en', 'content')}
+                                theme="snow"
+                                id="post-content"
                             />
                         </div>
                         <div className="input-group">
                             <label>Contenu additionnel (Anglais)</label>
                             <textarea
-                                id={'post-additional-content'}
                                 value={post.additionalContentEn}
                                 onChange={(e) => setPost({ ...post, additionalContentEn: e.target.value })}
                             />

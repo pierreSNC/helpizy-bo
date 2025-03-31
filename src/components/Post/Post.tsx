@@ -44,7 +44,7 @@ const Post: React.FC = () => {
         <div>
             <div className="title__wrapper">
 
-                <h1>Posts en Français</h1>
+                <h1>Articles</h1>
                 <Link to="/post/add-post">
                     <button className={'add-button'}>Ajouter</button>
                 </Link>

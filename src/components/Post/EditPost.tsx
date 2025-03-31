@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 
 const PostEdit = () => {
@@ -9,18 +11,13 @@ const PostEdit = () => {
     const [post, setPost] = useState({
         titleFr: '',
         titleEn: '',
-        excerptFr: '',
-        excerptEn: '',
         contentFr: '',
         contentEn: '',
         additionalContentFr: '',
         additionalContentEn: '',
-        active: true,
-        is_premium: false,
-        thumbnail: '',
-        videoUrl: '',
-        id_category: [] as string[], // On définit clairement id_category comme un tableau de string
+        id_category: [] as string[],
         id_author: '',
+        thumbnail: '',  // Assure-toi que le champ thumbnail est là
     });
     const [newImage, setNewImage] = useState<File | null>(null);
     const [categories, setCategories] = useState([]);
@@ -51,19 +48,14 @@ const PostEdit = () => {
 
                 setPost({
                     titleFr: frenchTranslation ? frenchTranslation.title : '',
-                    excerptFr: frenchTranslation ? frenchTranslation.excerpt : '',
                     contentFr: frenchTranslation ? frenchTranslation.content : '',
                     additionalContentFr: frenchTranslation ? frenchTranslation.additionnal_content : '',
                     titleEn: englishTranslation ? englishTranslation.title : '',
-                    excerptEn: englishTranslation ? englishTranslation.excerpt : '',
                     contentEn: englishTranslation ? englishTranslation.content : '',
                     additionalContentEn: englishTranslation ? englishTranslation.additionnal_content : '',
-                    active: data.active,
-                    is_premium: data.is_premium,
-                    thumbnail: data.thumbnail,
-                    videoUrl: data.video_url || '',
-                    id_category: Array.isArray(data.id_category) ? data.id_category : data.id_category.split(','), // On vérifie si c'est déjà un tableau, sinon on le découpe
+                    id_category: Array.isArray(data.id_category) ? data.id_category : data.id_category.split(','),
                     id_author: data.id_author,
+                    thumbnail: data.thumbnail || '', // Assure-toi de conserver l'image actuelle
                 });
                 setLoading(false);
             })
@@ -81,21 +73,16 @@ const PostEdit = () => {
         const formData = new FormData();
 
         // Ajoute les données textuelles
-        formData.append('active', String(post.active));
-        formData.append('video_url', post.videoUrl);
-        formData.append("is_premium", String(post.is_premium));
-        formData.append('id_category', post.id_category.join(',')); // Envoi des catégories sous forme de chaîne
+        formData.append('id_category', post.id_category.join(','));
         formData.append('id_author', post.id_author);
         formData.append('translations', JSON.stringify([{
             id_lang: 1,
             title: post.titleFr,
-            excerpt: post.excerptFr,
             content: post.contentFr,
             additionnal_content: post.additionalContentFr,
         }, {
             id_lang: 2,
             title: post.titleEn,
-            excerpt: post.excerptEn,
             content: post.contentEn,
             additionnal_content: post.additionalContentEn,
         }]));
@@ -122,11 +109,10 @@ const PostEdit = () => {
         }
     };
 
-    // Gère la sélection des catégories (multiple)
     const handleCategoryChange = (id: any) => {
         const updatedCategories = post.id_category.includes(String(id))
-            ? post.id_category.filter((catId: string) => catId !== String(id))  // Désélectionner
-            : [...post.id_category, String(id)];  // Ajouter la catégorie
+            ? post.id_category.filter((catId: string) => catId !== String(id))
+            : [...post.id_category, String(id)];
 
         setPost({ ...post, id_category: updatedCategories });
     };
@@ -196,23 +182,6 @@ const PostEdit = () => {
                 </div>
             )}
 
-            <div className="status__wrapper">
-                    <label> Article Premium :</label>
-                    <input
-                        type="checkbox"
-                        checked={!!post.is_premium} // Convertit undefined en false si nécessaire
-                        onChange={(e) => setPost({ ...post, is_premium: e.target.checked })}
-                    />
-            </div>
-            <div className="status__wrapper">
-                <label>Status :</label>
-                <input
-                    type="checkbox"
-                    checked={post.active}
-                    onChange={(e) => setPost({ ...post, active: e.target.checked })}
-                />
-            </div>
-
             <div className="nav nav-tabs">
                 <button className={`nav-link ${activeTab === 'fr' ? 'active' : ''}`} onClick={() => setActiveTab('fr')}>
                     Français
@@ -234,19 +203,11 @@ const PostEdit = () => {
                             />
                         </div>
                         <div className="input-group">
-                            <label>Résumé (Français) :</label>
-                            <textarea
-                                id={'post-excerpt'}
-                                value={post.excerptFr}
-                                onChange={(e) => setPost({ ...post, excerptFr: e.target.value })}
-                            />
-                        </div>
-                        <div className="input-group">
                             <label>Contenu principal (Français) :</label>
-                            <textarea
-                                id={'post-content'}
+                            <ReactQuill
+                                id="post-content"
                                 value={post.contentFr}
-                                onChange={(e) => setPost({ ...post, contentFr: e.target.value })}
+                                onChange={(value) => setPost({ ...post, contentFr: value })}
                             />
                         </div>
                         <div className="input-group">
@@ -271,19 +232,11 @@ const PostEdit = () => {
                             />
                         </div>
                         <div className="input-group">
-                            <label>Excerpt (English) :</label>
-                            <textarea
-                                id={'post-excerpt'}
-                                value={post.excerptEn}
-                                onChange={(e) => setPost({ ...post, excerptEn: e.target.value })}
-                            />
-                        </div>
-                        <div className="input-group">
                             <label>Main Content (English) :</label>
-                            <textarea
-                                id={'post-content'}
+                            <ReactQuill
+                                id="post-content"
                                 value={post.contentEn}
-                                onChange={(e) => setPost({ ...post, contentEn: e.target.value })}
+                                onChange={(value) => setPost({ ...post, contentEn: value })}
                             />
                         </div>
                         <div className="input-group">
@@ -309,16 +262,6 @@ const PostEdit = () => {
                 <div className="input-group">
                     <label>Nouvelle image :</label>
                     <input type="file" accept="image/*" onChange={handleImageChange} />
-                </div>
-
-                <div className="input-group">
-                    <label>Lien vidéo YouTube :</label>
-                    <input
-                        type="text"
-                        value={post.videoUrl}
-                        onChange={(e) => setPost({ ...post, videoUrl: e.target.value })}
-                        placeholder="Ex: https://www.youtube.com/watch?v=example"
-                    />
                 </div>
 
                 <div className="button-group">
